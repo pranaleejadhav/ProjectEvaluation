@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "384b50b2-7ef4-4395-bf96-b9710144ed9d",
+		"name": "Advanced MAD_FinalProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Token (just for testing)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/usertoken?id=user1",
+					"protocol": "http",
+					"host": [
+						"ec2-18-216-57-132",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "4000",
+					"path": [
+						"usertoken"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "user1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all teams",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NDQxMTY4Njd9.6TBs9QK_STrzImcaf3cN-3_EtH_EIdMdlQDE3RZsKEI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/teams",
+					"protocol": "http",
+					"host": [
+						"ec2-18-216-57-132",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "4000",
+					"path": [
+						"teams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "to login Evaluator",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXIxIiwiaWF0IjoxNTQ0MTQxMzA5fQ.SC8vZHjXAjKg94DXfLIh_I12-bm5aU37-MWgB6g3QA0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/login",
+					"protocol": "http",
+					"host": [
+						"ec2-18-216-57-132",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "4000",
+					"path": [
+						"login"
+					]
+				},
+				"description": "to get userid"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all scores",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NDQxMzE2NjZ9.5SobLyWNUHoY0gDatXURI8mD2LOgDR2vRdnlv9oQFFY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/allscores",
+					"protocol": "http",
+					"host": [
+						"ec2-18-216-57-132",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "4000",
+					"path": [
+						"allscores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get questions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXIxIiwiaWF0IjoxNTQ0MTQxMzA5fQ.SC8vZHjXAjKg94DXfLIh_I12-bm5aU37-MWgB6g3QA0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/questions",
+					"protocol": "http",
+					"host": [
+						"ec2-18-216-57-132",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "4000",
+					"path": [
+						"questions"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

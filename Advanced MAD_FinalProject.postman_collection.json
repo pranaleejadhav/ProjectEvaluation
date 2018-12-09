@@ -186,6 +186,137 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Update Scores",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXIxIiwiaWF0IjoxNTQ0MjIyMDczfQ.862Lo1Nw7Gw93-VK8-98rn0x-0C9USxS4s1usJGgr8o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/score?teamid=Team1&score=20&userId=user1",
+					"protocol": "http",
+					"host": [
+						"ec2-18-216-57-132",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "4000",
+					"path": [
+						"score"
+					],
+					"query": [
+						{
+							"key": "teamid",
+							"value": "Team1"
+						},
+						{
+							"key": "score",
+							"value": "20"
+						},
+						{
+							"key": "userId",
+							"value": "user1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Evaluator Teams",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXIxIiwiaWF0IjoxNTQ0MjIyMDczfQ.862Lo1Nw7Gw93-VK8-98rn0x-0C9USxS4s1usJGgr8o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/userteams?userId=user1",
+					"protocol": "http",
+					"host": [
+						"ec2-18-216-57-132",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "4000",
+					"path": [
+						"userteams"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "user1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "To login team",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlRlYW0xIiwiaWF0IjoxNTQ0MzA1NjUwfQ.fEvibx-4rkYwFlcd64jMMv1cdf0bkPerHYVL5siDF1c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/loginteam",
+					"protocol": "http",
+					"host": [
+						"ec2-18-216-57-132",
+						"us-east-2",
+						"compute",
+						"amazonaws",
+						"com"
+					],
+					"port": "4000",
+					"path": [
+						"loginteam"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

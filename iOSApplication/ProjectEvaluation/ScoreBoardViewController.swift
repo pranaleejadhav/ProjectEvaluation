@@ -6,6 +6,9 @@
 //  Copyright © 2018 Pranalee Jadhav. All rights reserved.
 //
 
+///
+
+
 import UIKit
 import SVProgressHUD
 
@@ -21,7 +24,8 @@ class customTableViewCell: UITableViewCell {
 
 class ScoreBoardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-     var tableArray = [Dictionary<String, Any>]()
+    var tableArray2 = [Dictionary<String, Any>]()
+    var originalArr = [Dictionary<String, Any>]()
     
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
@@ -40,11 +44,12 @@ class ScoreBoardViewController: UIViewController, UITableViewDataSource, UITable
         getData()
         // Do any additional setup after loading the view.
     }
-    
+
     func getData() {
         //show loader
         SVProgressHUD.show()
-        getAPIRequest(server_api: "allscores", handler: {(data) in
+        let userid = UserDefaults.standard.string(forKey: "userid") ?? ""
+        getAPIRequest(server_api: "userteams?userId=\(userid)", handler: {(data) in
             //dismiss loader
             SVProgressHUD.dismiss()
             if let val = data["code"] as? Int{
@@ -56,30 +61,74 @@ class ScoreBoardViewController: UIViewController, UITableViewDataSource, UITable
                     self.showMsg(title: "Error", subTitle: "Please try again")
                 }
             } else{
-                self.tableArray = data["scores"] as! [Dictionary<String, Any>]
-                self.tableView.reloadData()
+                self.tableArray2 = data["teams"] as! [Dictionary<String, Any>]
+                
+                getAPIRequest(server_api: "teams", handler: {(data) in
+                    //dismiss loader
+                    SVProgressHUD.dismiss()
+                    if let val = data["code"] as? Int{
+                        switch(val){
+                        case 0: self.showMsg(title: "Oops!", subTitle: "No Internet")
+                            break
+                            
+                        default:
+                            self.showMsg(title: "Error", subTitle: "Please try again")
+                        }
+                    } else{
+                        let arr = data["data"] as! [Dictionary<String, Any>]
+                        
+                       arr.forEach{ ( item:Dictionary<String, Any>) in
+                            let str = item["teamId"] as? String
+                            var i = true
+                            for item2 in self.tableArray2 {
+                                if (item2["teamId"] as? String) == str {
+                                    var temp = item
+                                    if let score = item2["score"] as? Dictionary<String,String>{
+                                       //temp["_id"] =
+                                        temp["myscore"] = score["$numberDecimal"] ?? ""
+                                    }
+                                    
+                                    
+                                    self.originalArr.append(temp)
+                                    i = false
+                                    break;
+                                }
+                            }
+                            if i {
+                                self.originalArr.append(item)
+                            }
+                            
+                        }
+                        print(self.originalArr)
+                        self.tableView.reloadData()
+                    }
+                })
+                
+                
+                
             }
         })
     }
-    
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableArray.count
+        return originalArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellItem") as!  customTableViewCell  //1.
-        cell.teamName.text = tableArray[indexPath.row]["teamId"] as? String
-        if let score = tableArray[indexPath.row]["score"] as? Dictionary<String,String>{
+        cell.teamName.text = originalArr[indexPath.row]["teamId"] as? String
+        if let score = originalArr[indexPath.row]["score"] as? Dictionary<String,String>{
             cell.scores.text = "Average Score: " + (score["$numberDecimal"] ?? "")
         }
-        //cell.myscore.text = "My Score: " + ((tableArray[indexPath.row]["teamId"] as? String) ?? "")
-    
-        cell.evaluationsCnt.text = "Evaluations Count: " + String((tableArray[indexPath.row]["evaluationscount"] as? Int) ?? 0)
+        if let myscore = (originalArr[indexPath.row]["myscore"] as? String) {
+            cell.myscore.text = "My Score: \(myscore)"
+        }
+        
+        cell.evaluationsCnt.text = "Evaluations Count: " + String((originalArr[indexPath.row]["evaluationscount"] as? Int) ?? 0)
         return cell
         
     }

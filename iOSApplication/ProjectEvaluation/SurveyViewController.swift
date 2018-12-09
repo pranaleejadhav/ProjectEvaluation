@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SVProgressHUD
 
-class SurveyViewController: UIViewController{
+class SurveyViewController: UIViewController, UINavigationBarDelegate{
     
     @IBOutlet weak var question_no: UILabel!
     @IBOutlet weak var questionLb: UILabel!
@@ -29,7 +29,11 @@ class SurveyViewController: UIViewController{
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var submitBtn: UIButton!
     
+    @IBOutlet weak var navBar: UINavigationBar!
+    @IBOutlet weak var navBarTitle: UINavigationItem!
     var imgArr:[UIImageView]=[UIImageView]()
+    
+    
     
     var qid:Int = 0
     var questionList:[Dictionary<String,Any>] = [Dictionary<String,Any>]()
@@ -37,13 +41,41 @@ class SurveyViewController: UIViewController{
     var answers = [Int](repeating: -1, count: 10)
     var seq:Int = 0
     var ans_arr = ["Poor","Fair","Good","Very Good","Superior"]
-    var teamid: Int = 0
+    var teamid: String = ""
+    var parent_type = true
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //set navigation bar title
-        self.title = "Team " + String(teamid + 1)
+       
+        
+        if !parent_type {
+            navBar.isHidden = false
+            navBarTitle.title = teamid
+            navBar.barTintColor = #colorLiteral(red: 0.9215686275, green: 0.3568627451, blue: 0.3333333333, alpha: 1)
+            navBar.tintColor = UIColor.white
+            let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+            navBar.titleTextAttributes = textAttributes
+            var backBtn: UIButton!
+            backBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 150, height: 25))
+            backBtn.setImage(UIImage(named: "backImg"), for: UIControl.State.normal)
+            backBtn.setTitle("Select Team", for: UIControl.State.normal)
+            backBtn.addTarget(self, action: #selector(leftBtnPressed), for: .touchUpInside)
+            backBtn.contentHorizontalAlignment = .left
+            backBtn.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10);
+            backBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0);
+            backBtn.tintColor = .white
+            backBtn.setTitleColor(.white, for: UIControl.State.normal)
+            navBarTitle.leftBarButtonItem = UIBarButtonItem(customView: backBtn)
+
+        } else {
+            //set navigation bar title
+            self.title = teamid
+            
+            navBar.isHidden = true
+        }
+        
         
         imgArr = [option1_img,option2_img,option3_img,option4_img,option5_img]
         
@@ -62,6 +94,10 @@ class SurveyViewController: UIViewController{
 
     }
     
+    @IBAction func leftBtnPressed(_ sender: Any) {
+        self.performSegue(withIdentifier: "goBackHome", sender: self)
+    }
+
     func getData() {
         //show loader
         SVProgressHUD.show()
@@ -130,8 +166,11 @@ class SurveyViewController: UIViewController{
                     })
                 })*/
                 //show loader
-               /* SVProgressHUD.show()
-                getAPIRequest(server_api: "score", handler: {(data) in
+               SVProgressHUD.show()
+                let userid = UserDefaults.standard.string(forKey: "userid") ?? ""
+                let server_url = "score?teamid=\(teamid)&score=\(arraySum)&userId=\(userid)"
+                print(server_url)
+                getAPIRequest(server_api: server_url, handler: {(data) in
                     //dismiss loader
                     SVProgressHUD.dismiss()
                     if let val = data["code"] as? Int{
@@ -143,12 +182,12 @@ class SurveyViewController: UIViewController{
                             self.showMsg(title: "Error", subTitle: "Please try again")
                         }
                     } else {
-                        
+                        self.closeSurvey(title: "Thank you for Evaluating \(self.teamid)", subTitle: "You graded \(arraySum)")
                         /*self.tableArray = data["teams"] as! [Dictionary<String, Any>]
                         self.tableView.reloadData()*/
                     }
-                })*/
-                self.closeSurvey(title: "Thank you for Evaluating Team \(teamid + 1)", subTitle: "You graded \(arraySum)")
+                })
+                
                 
             } else {
                 seq = seq + 1

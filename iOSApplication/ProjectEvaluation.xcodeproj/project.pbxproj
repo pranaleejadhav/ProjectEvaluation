@@ -12,10 +12,11 @@
 		9C242C2721B1DAE7009006B9 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C242C2621B1DAE7009006B9 /* QRScannerViewController.swift */; };
 		9C242C2921B1DB15009006B9 /* TeamSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C242C2821B1DB15009006B9 /* TeamSelectViewController.swift */; };
 		9C242C2B21B1DC3C009006B9 /* ScoreBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C242C2A21B1DC3C009006B9 /* ScoreBoardViewController.swift */; };
-		9C242C2E21B1F8A0009006B9 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C242C2C21B1F89F009006B9 /* check.png */; };
-		9C242C2F21B1F8A0009006B9 /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C242C2D21B1F89F009006B9 /* uncheck.png */; };
 		9C242C3121B1F927009006B9 /* SurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C242C3021B1F927009006B9 /* SurveyViewController.swift */; };
-		9CBBDE6B21B46EC20014CC9B /* hamburger.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CBBDE6A21B46EC20014CC9B /* hamburger.png */; };
+		9C24ADA021BB1A8B00AD7128 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C24AD9F21BB1A8B00AD7128 /* AVFoundation.framework */; };
+		9C2639D721BC96D500F64A28 /* QuestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2639D621BC96D500F64A28 /* QuestionsViewController.swift */; };
+		9C2639D921BC96E300F64A28 /* ProjectOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2639D821BC96E300F64A28 /* ProjectOverViewController.swift */; };
+		9C2639DB21BC96F100F64A28 /* ProjectdetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2639DA21BC96F100F64A28 /* ProjectdetailsViewController.swift */; };
 		9CBBDE6D21B47B650014CC9B /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBBDE6C21B47B650014CC9B /* ServerManager.swift */; };
 		9CD8866D21B0A6D100C5220A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8866C21B0A6D100C5220A /* AppDelegate.swift */; };
 		9CD8867221B0A6D100C5220A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CD8867021B0A6D100C5220A /* Main.storyboard */; };
@@ -29,10 +30,11 @@
 		9C242C2621B1DAE7009006B9 /* QRScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
 		9C242C2821B1DB15009006B9 /* TeamSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectViewController.swift; sourceTree = "<group>"; };
 		9C242C2A21B1DC3C009006B9 /* ScoreBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreBoardViewController.swift; sourceTree = "<group>"; };
-		9C242C2C21B1F89F009006B9 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
-		9C242C2D21B1F89F009006B9 /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncheck.png; sourceTree = "<group>"; };
 		9C242C3021B1F927009006B9 /* SurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyViewController.swift; sourceTree = "<group>"; };
-		9CBBDE6A21B46EC20014CC9B /* hamburger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hamburger.png; sourceTree = "<group>"; };
+		9C24AD9F21BB1A8B00AD7128 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		9C2639D621BC96D500F64A28 /* QuestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsViewController.swift; sourceTree = "<group>"; };
+		9C2639D821BC96E300F64A28 /* ProjectOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOverViewController.swift; sourceTree = "<group>"; };
+		9C2639DA21BC96F100F64A28 /* ProjectdetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectdetailsViewController.swift; sourceTree = "<group>"; };
 		9CBBDE6C21B47B650014CC9B /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
 		9CD8866921B0A6D100C5220A /* ProjectEvaluation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectEvaluation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD8866C21B0A6D100C5220A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C24ADA021BB1A8B00AD7128 /* AVFoundation.framework in Frameworks */,
 				646FBA8967BDED6536D1EFBC /* Pods_ProjectEvaluation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,6 +71,7 @@
 		62A9AA5B11037B4FB8BDB3BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9C24AD9F21BB1A8B00AD7128 /* AVFoundation.framework */,
 				B2566414DCD85D102BA2F89B /* Pods_ProjectEvaluation.framework */,
 			);
 			name = Frameworks;
@@ -95,10 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				9CBBDE6C21B47B650014CC9B /* ServerManager.swift */,
-				9CBBDE6A21B46EC20014CC9B /* hamburger.png */,
 				9C242C3021B1F927009006B9 /* SurveyViewController.swift */,
-				9C242C2C21B1F89F009006B9 /* check.png */,
-				9C242C2D21B1F89F009006B9 /* uncheck.png */,
 				9CD8866C21B0A6D100C5220A /* AppDelegate.swift */,
 				9CD8867021B0A6D100C5220A /* Main.storyboard */,
 				9CD8867321B0A6D400C5220A /* Assets.xcassets */,
@@ -108,6 +109,9 @@
 				9C242C2621B1DAE7009006B9 /* QRScannerViewController.swift */,
 				9C242C2821B1DB15009006B9 /* TeamSelectViewController.swift */,
 				9C242C2A21B1DC3C009006B9 /* ScoreBoardViewController.swift */,
+				9C2639D621BC96D500F64A28 /* QuestionsViewController.swift */,
+				9C2639D821BC96E300F64A28 /* ProjectOverViewController.swift */,
+				9C2639DA21BC96F100F64A28 /* ProjectdetailsViewController.swift */,
 			);
 			path = ProjectEvaluation;
 			sourceTree = "<group>";
@@ -173,10 +177,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CD8867721B0A6D400C5220A /* LaunchScreen.storyboard in Resources */,
-				9CBBDE6B21B46EC20014CC9B /* hamburger.png in Resources */,
 				9CD8867421B0A6D400C5220A /* Assets.xcassets in Resources */,
-				9C242C2F21B1F8A0009006B9 /* uncheck.png in Resources */,
-				9C242C2E21B1F8A0009006B9 /* check.png in Resources */,
 				9CD8867221B0A6D100C5220A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -235,11 +236,14 @@
 			files = (
 				9CBBDE6D21B47B650014CC9B /* ServerManager.swift in Sources */,
 				9C242C2721B1DAE7009006B9 /* QRScannerViewController.swift in Sources */,
+				9C2639D921BC96E300F64A28 /* ProjectOverViewController.swift in Sources */,
+				9C2639D721BC96D500F64A28 /* QuestionsViewController.swift in Sources */,
 				9C242C2921B1DB15009006B9 /* TeamSelectViewController.swift in Sources */,
 				9CD8866D21B0A6D100C5220A /* AppDelegate.swift in Sources */,
 				9C242C2B21B1DC3C009006B9 /* ScoreBoardViewController.swift in Sources */,
 				9C242C3121B1F927009006B9 /* SurveyViewController.swift in Sources */,
 				9C242C2521B1DAA9009006B9 /* SignInViewController.swift in Sources */,
+				9C2639DB21BC96F100F64A28 /* ProjectdetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,7 +391,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3L74888M6T;
 				INFOPLIST_FILE = ProjectEvaluation/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -405,7 +411,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3L74888M6T;
 				INFOPLIST_FILE = ProjectEvaluation/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

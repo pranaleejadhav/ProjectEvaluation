@@ -77,6 +77,38 @@ func getAPIRequest(server_api: String, handler:@escaping (Dictionary<String, Any
 }
 
 
+func getTeamAPIRequest(server_api: String, handler:@escaping (Dictionary<String, Any>) -> Void) -> Void {
+    let headers = [
+        "Authorization": "Bearer "+UserDefaults.standard.string(forKey: "team_token")!,
+        "Content-Type": "application/json"
+    ]
+    if Connectivity.isConnectedToInternet {
+        let url = server_url + server_api
+        
+        Alamofire.request(url, method: .get, parameters: nil,encoding:
+            JSONEncoding.default, headers: headers).responseJSON { (response:DataResponse<Any>) in
+                print(response)
+                switch response.result {
+                case .success(let value):
+                    if let val = value as? Dictionary<String, Any> {
+                        
+                        handler(val)
+                        
+                    }else {
+                        handler(["code":1])
+                    }
+                    break
+                    
+                case .failure(let error):
+                    print(error)
+                    handler(["code":1])
+                }
+        }
+    }else {
+        handler(["code":"0"])
+    }
+}
+
 //to call login api
 func post_loginrequest(parameters: Parameters, handler:@escaping (Int) -> Void) -> Void {
     if Connectivity.isConnectedToInternet {
@@ -109,7 +141,8 @@ func post_loginrequest(parameters: Parameters, handler:@escaping (Int) -> Void) 
                     let val = json["jwt"].rawString() //.stringValue
                     UserDefaults.standard.set(val, forKey: "token")
                     
-                    print("kjhk kjhkbk \(val)")
+                    
+                   // print("kjhk kjhkbk \(val)")
                      handler(2)
                     
                     break

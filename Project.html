@@ -1,0 +1,56 @@
+<html>
+<body>
+<p>
+	<b>App Description: </b><br/>The project can be used by Evaluators to evaluate the participating teams in events like poster presentation. The evaluation can be managed by Admin to perform functions like design survey questions, review final scores.
+
+</p>
+
+<p> <b>Technologies used: </b>
+<ul>
+<li>
+<p>Nodejs for Web Application and backend</p>
+</li>
+<li>
+<p>iOS Application: Swift v4.2</p>
+</li>
+<li>
+<p>Android</p>
+</li>
+<li>
+<p>MongoDB</p>
+</li>
+<li>
+<p>Amazon Web Services to deploy web api</p>
+</li>
+</ul>
+</p>
+
+<p><b>App Functionalities: </b><br/>
+The evaluator will use the mobile app to login (using QR code), select a team (using QR code), submit evaluations, view score board, and view submitted evaluations. The Admin will use the web application to design the survey questions, manage evaluators and teams, and review the submitted evaluations.
+</p>
+
+<p>
+	<b>Mobile App Features:</b><br/>
+	<ul>
+<li>Scan QR Code to sign in an Evaluator.</li>
+<li>After login, the evaluator will see a two list of teams: Evaluated and Non-Evaluated.</li>
+<li>To score a team, the evaluator has to select the corresponding team name from the list. He/ She can also select the team by scanning QR code of the team.</li>
+<li>To score a team, the evaluator has to answer all the questions.</li>
+<li>The evaluator can also rescore a team. In this case, the latest evaluation will be considered.</li>
+<li>In the Score Board page, the evaluator can see list of teams sorted in descending order based on their average  score.</li>
+<li>To sign out from the app, the evaluator can simply click on logout button.</li>
+</ul>
+</p>
+
+<p>
+	<b>Web API Features: 
+	</b><br/>
+	Login Api (/login): It is used to login the evaluator. It verifies the jwt token send in the authorization header of request. In response, it will send userid if verification is successful.
+Teams Api (/teams): It is used to get complete list of teams. It also verifies the jwt token send in the authorization header of request.
+Questions Api (/questions): It is used to get complete list of survey questions.
+Submit Score Api (/score): It is used to submit the evaluation score. It takes teamid, evaluatorid and scores as input parameters.
+All Scores Api (/allscores): It is used to get complete list of teams along with their scores. Teams are returned in descending order of their average scores.
+</p>
+
+</body>
+</html>

@@ -19,7 +19,9 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     var qrCodeFrameView: UIView?
-    var teamid: Int?
+    var teamid: String?
+    
+    var requests = false
     
     
     private let supportedCodeTypes = [AVMetadataObject.ObjectType.upce,
@@ -41,11 +43,28 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loginEvaluator()
+        //oginEvaluator()
+        if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
+            //already authorized
+            self.configureQRScanning()
+        } else {
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                if granted {
+                    //access allowed
+                    self.configureQRScanning()
+                } else {
+                    //access denied
+                }
+            })
+        }
         
-        
+      
+    }
+    
+    
+    func configureQRScanning() {
         // Get the back-facing camera for capturing videos
-        let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDualCamera], mediaType: AVMediaType.video, position: .back)
+        let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .back)
         
         guard let captureDevice = deviceDiscoverySession.devices.first else {
             print("Failed to get the camera device")
@@ -98,47 +117,46 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
         }
     }
     
+    func loginTeam() {
+        //show loader
+        SVProgressHUD.show()
+        getTeamAPIRequest(server_api: "loginteam", handler: {(data) in
+            //dismiss loader
+            SVProgressHUD.dismiss()
+            if let val = data["code"] as? Int{
+                switch(val){
+                case 0: self.showMsg(title: "Oops!", subTitle: "No Internet")
+                    break
+                default:
+                    self.showMsg(title: "Error", subTitle: "Please try again")
+                }
+            } else {
+                self.teamid = data["teamid"] as? String
+                self.performSegue(withIdentifier: "goToSurvey", sender: self)
+            }
+        })
+        
+    }
     
     func loginEvaluator() {
         //show loader
         SVProgressHUD.show()
-        post_loginrequest(parameters: [:], handler: {(data) in
+        getAPIRequest(server_api: "login", handler: {(data) in
             //dismiss loader
-            
-            switch(data){
-            case 0:
-                SVProgressHUD.dismiss()
-                self.showMsg(title: "Oops!", subTitle: "No Internet")
-                break
-            case 2:
-                //UserDefaults.standard.set(uname, forKey: "username")
-                getAPIRequest(server_api: "login", handler: {(data) in
-                    //dismiss loader
-                    SVProgressHUD.dismiss()
-                    if let val = data["code"] as? Int{
-                        switch(val){
-                        case 0: self.showMsg(title: "Oops!", subTitle: "No Internet")
-                            break
-                        default:
-                            self.showMsg(title: "Error", subTitle: "Please try again")
-                        }
-                    } else {
-                        print("Data \(data)")
-                        self.performSegue(withIdentifier: "goToTeams", sender: self)  
-                    }
-                })
-                
-               
-                break
-            case 3:
-                SVProgressHUD.dismiss()
-                self.showMsg(title: "Error", subTitle: "Incorrect credentials")
-                break
-            default:
-                SVProgressHUD.dismiss()
-                self.showMsg(title: "Error", subTitle: "Please try again")
+            SVProgressHUD.dismiss()
+            if let val = data["code"] as? Int{
+                switch(val){
+                case 0: self.showMsg(title: "Oops!", subTitle: "No Internet")
+                    break
+                default:
+                    self.showMsg(title: "Error", subTitle: "Please try again")
+                }
+            } else {
+                UserDefaults.standard.set(data["userid"], forKey: "userid")
+                self.performSegue(withIdentifier: "goToTeams", sender: self)
             }
         })
+        
     }
 
     // MARK: - Helper methods
@@ -184,13 +202,22 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             qrCodeFrameView?.frame = barCodeObject!.bounds
             
             if metadataObj.stringValue != nil {
-                launchApp(decodedURL: metadataObj.stringValue!)
-                resultLb.text = metadataObj.stringValue
-                
-                if escanType {
-                    loginEvaluator()
-                } else {
-                    self.performSegue(withIdentifier: "goToSurvey", sender: self)
+                //launchApp(decodedURL: metadataObj.stringValue!)
+                resultLb.text = "QR code is detected"//metadataObj.stringValue
+                //print(metadataObj.stringValue)
+                if !requests{
+                    if escanType {
+                        
+                        UserDefaults.standard.set(metadataObj.stringValue, forKey: "token")
+                       loginEvaluator()
+                    } else {
+                        print(metadataObj.stringValue)
+                        
+                        UserDefaults.standard.set(metadataObj.stringValue, forKey: "team_token")
+                        loginTeam()
+                      //self.performSegue(withIdentifier: "goToSurvey", sender: self)
+                    }
+                    requests = true
                 }
                 
                 
@@ -223,6 +250,8 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
         if segue.identifier == "goToSurvey" {
             let vc = segue.destination as! SurveyViewController
             vc.teamid = teamid!
+            vc.parent_type = false
+            
         }
     }
     

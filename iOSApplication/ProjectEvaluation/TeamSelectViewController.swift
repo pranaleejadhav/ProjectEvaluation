@@ -25,20 +25,24 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
     @IBOutlet weak var viewTrailing: NSLayoutConstraint!
     var hamburgerMenuIsVisible = false
     
+    @IBOutlet weak var eName: UILabel!
     @IBOutlet weak var stackLeading: NSLayoutConstraint!
     
     @IBOutlet weak var tableView: UITableView!
-    var tableArray = [Dictionary<String, Any>]()
+    var tableArray1 = [Dictionary<String, Any>]()
+    var tableArray2 = [Dictionary<String, Any>]()
+    var originalArr = [Dictionary<String, Any>]()
     @IBOutlet weak var segmentedCtrl: UISegmentedControl!
     
     @IBOutlet weak var sideView: UIView!
     @IBOutlet weak var mainView: UIView!
-    
+    var userid: String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Select Team"
-        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.9203050733, green: 0.3588146567, blue: 0.3351347446, alpha: 1)
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.9215686275, green: 0.3568627451, blue: 0.3333333333, alpha: 1)
         navigationController?.navigationBar.tintColor = UIColor.white
         let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
@@ -70,14 +74,24 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
         sideView.layer.shadowColor = UIColor.gray.cgColor
         sideView.layer.shadowOffset = CGSize(width: 3 , height:0)
         
+        userid = UserDefaults.standard.string(forKey: "userid") ?? ""
+        eName.text = "Hello, \(userid)"
         
         getData()
+    }
+    
+    @IBAction func closeSideView(_ sender: Any) {
+        stackLeading.constant = -250;
+        
+        //1
+        hamburgerMenuIsVisible = false
+        self.mainView.isUserInteractionEnabled = true
     }
     
     func getData() {
         //show loader
         SVProgressHUD.show()
-        getAPIRequest(server_api: "teams", handler: {(data) in
+        getAPIRequest(server_api: "userteams?userId=\(userid)", handler: {(data) in
             //dismiss loader
             SVProgressHUD.dismiss()
             if let val = data["code"] as? Int{
@@ -89,8 +103,36 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
                     self.showMsg(title: "Error", subTitle: "Please try again")
                 }
             } else{
-                self.tableArray = data["data"] as! [Dictionary<String, Any>]
-                self.tableView.reloadData()
+                self.tableArray2 = data["teams"] as! [Dictionary<String, Any>]
+                
+                getAPIRequest(server_api: "teams", handler: {(data) in
+                    //dismiss loader
+                    SVProgressHUD.dismiss()
+                    if let val = data["code"] as? Int{
+                        switch(val){
+                        case 0: self.showMsg(title: "Oops!", subTitle: "No Internet")
+                            break
+                            
+                        default:
+                            self.showMsg(title: "Error", subTitle: "Please try again")
+                        }
+                    } else{
+                        let arr = data["data"] as! [Dictionary<String, Any>]
+                        
+                        arr.forEach{ (item:Dictionary<String, Any>) in
+                            let str = item["teamId"] as? String
+                            if !self.tableArray2.contains(where: {$0["teamId"] as? String  == str }) {
+                                self.tableArray1.append(item)
+                            }
+                        
+                        }
+                        self.originalArr = self.tableArray1
+                        self.tableView.reloadData()
+                    }
+                })
+                
+                
+               
             }
         })
     }
@@ -127,6 +169,16 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
     }
     
     
+    @IBAction func toggleList(_ sender: Any) {
+        if segmentedCtrl.selectedSegmentIndex == 0 {
+            originalArr = tableArray1
+        } else {
+            originalArr = tableArray2
+        }
+        tableView.reloadData()
+    }
+    
+    
     override func viewDidDisappear(_ animated: Bool) {
         stackLeading.constant = -250;
         hamburgerMenuIsVisible = false
@@ -146,12 +198,12 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableArray.count
+        return originalArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellItem") //1.
-        cell?.textLabel?.text = tableArray[indexPath.row]["teamId"] as? String
+        cell?.textLabel?.text = originalArr[indexPath.row]["teamId"] as? String
         
         return cell!
         
@@ -174,8 +226,11 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
             let loc = sender as! IndexPath
             let vc = segue.destination as! SurveyViewController
             //print(tableArr[loc.row].id)
-            vc.teamid = 0//tableArray[loc.row].id
+            vc.teamid = (originalArr[loc.row]["teamId"] as? String)!
 
+        } else  if segue.identifier == "showQRPage" {
+            let vc = segue.destination as! QRScannerViewController
+            vc.escanType = false
         }
     }
     
@@ -189,8 +244,12 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
         })
     }
     
+    
+    
     @IBAction func unwindToHome(segue:UIStoryboardSegue) {
         
     }
     
 }
+
+

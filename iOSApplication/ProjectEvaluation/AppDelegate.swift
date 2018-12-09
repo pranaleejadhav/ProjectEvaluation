@@ -19,6 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        //change status bar appearance
+        
+        //UIApplication.shared.statusBarStyle = .lightContent
+        let statusBar: UIView = UIApplication.shared.value(forKey: "statusBar") as! UIView
+        if statusBar.responds(to: #selector(setter: UIView.backgroundColor)) {
+            statusBar.backgroundColor = #colorLiteral(red: 0.9203050733, green: 0.3588146567, blue: 0.3351347446, alpha: 1)
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(showHomeScreen(_:)), name: Notification.Name("com.amad.final_proj"), object: nil)
         
        NotificationCenter.default.post(name: Notification.Name("com.amad.final_proj"), object: self, userInfo: nil)
@@ -27,12 +35,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+
+    
     @objc func showHomeScreen(_ notification:Notification) {
         
         let bundle = Bundle.main
         let storyboard = UIStoryboard(name: "Main", bundle: bundle)
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        if let userid = UserDefaults.standard.string(forKey: "token") {
+        if UserDefaults.standard.string(forKey: "userid") != nil {
         
             let mainViewController = storyboard.instantiateViewController(withIdentifier: "TeamSelectViewController") as! TeamSelectViewController
             let navigationController = UINavigationController(rootViewController: mainViewController)

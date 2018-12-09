@@ -26,6 +26,7 @@ class ScoreBoardViewController: UIViewController, UITableViewDataSource, UITable
 
     var tableArray2 = [Dictionary<String, Any>]()
     var originalArr = [Dictionary<String, Any>]()
+     var deviceType = true
     
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
@@ -41,6 +42,12 @@ class ScoreBoardViewController: UIViewController, UITableViewDataSource, UITable
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+           
+            deviceType = false
+        }
+        
         getData()
         // Do any additional setup after loading the view.
     }
@@ -134,7 +141,12 @@ class ScoreBoardViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80.0
+        if deviceType {
+            return 80.0
+        } else {
+            return 100.0
+        }
+        
     }
 
     

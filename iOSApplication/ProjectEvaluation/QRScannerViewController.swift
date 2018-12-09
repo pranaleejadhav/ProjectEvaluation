@@ -152,6 +152,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                     self.showMsg(title: "Error", subTitle: "Please try again")
                 }
             } else {
+                print("loginnnn \(data)")
                 UserDefaults.standard.set(data["userid"], forKey: "userid")
                 self.performSegue(withIdentifier: "goToTeams", sender: self)
             }

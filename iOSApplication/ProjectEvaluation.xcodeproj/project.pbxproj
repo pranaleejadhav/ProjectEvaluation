@@ -17,6 +17,7 @@
 		9C2639D721BC96D500F64A28 /* QuestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2639D621BC96D500F64A28 /* QuestionsViewController.swift */; };
 		9C2639D921BC96E300F64A28 /* ProjectOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2639D821BC96E300F64A28 /* ProjectOverViewController.swift */; };
 		9C2639DB21BC96F100F64A28 /* ProjectdetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2639DA21BC96F100F64A28 /* ProjectdetailsViewController.swift */; };
+		9C2639DD21BCA00B00F64A28 /* Project.html in Resources */ = {isa = PBXBuildFile; fileRef = 9C2639DC21BCA00B00F64A28 /* Project.html */; };
 		9CBBDE6D21B47B650014CC9B /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBBDE6C21B47B650014CC9B /* ServerManager.swift */; };
 		9CD8866D21B0A6D100C5220A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8866C21B0A6D100C5220A /* AppDelegate.swift */; };
 		9CD8867221B0A6D100C5220A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CD8867021B0A6D100C5220A /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 		9C2639D621BC96D500F64A28 /* QuestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsViewController.swift; sourceTree = "<group>"; };
 		9C2639D821BC96E300F64A28 /* ProjectOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOverViewController.swift; sourceTree = "<group>"; };
 		9C2639DA21BC96F100F64A28 /* ProjectdetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectdetailsViewController.swift; sourceTree = "<group>"; };
+		9C2639DC21BCA00B00F64A28 /* Project.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Project.html; sourceTree = "<group>"; };
 		9CBBDE6C21B47B650014CC9B /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
 		9CD8866921B0A6D100C5220A /* ProjectEvaluation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectEvaluation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD8866C21B0A6D100C5220A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 		9CD8866B21B0A6D100C5220A /* ProjectEvaluation */ = {
 			isa = PBXGroup;
 			children = (
+				9C2639DC21BCA00B00F64A28 /* Project.html */,
 				9CBBDE6C21B47B650014CC9B /* ServerManager.swift */,
 				9C242C3021B1F927009006B9 /* SurveyViewController.swift */,
 				9CD8866C21B0A6D100C5220A /* AppDelegate.swift */,
@@ -178,6 +181,7 @@
 			files = (
 				9CD8867721B0A6D400C5220A /* LaunchScreen.storyboard in Resources */,
 				9CD8867421B0A6D400C5220A /* Assets.xcassets in Resources */,
+				9C2639DD21BCA00B00F64A28 /* Project.html in Resources */,
 				9CD8867221B0A6D100C5220A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

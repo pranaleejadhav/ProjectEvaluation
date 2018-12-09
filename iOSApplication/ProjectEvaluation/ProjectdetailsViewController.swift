@@ -15,9 +15,12 @@ class ProjectdetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let url = URL(string: "https://www.apple.com") {
-            let request = URLRequest(url: url)
-            webView.load(request)
+        
+        
+        if let baseURL = Bundle.main.resourceURL {
+            let fileURL = baseURL.appendingPathComponent("Project.html")
+            
+            webView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
         }
         
     }

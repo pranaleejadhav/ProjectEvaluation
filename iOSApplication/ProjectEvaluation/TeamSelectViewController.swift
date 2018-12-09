@@ -37,7 +37,9 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
     @IBOutlet weak var sideView: UIView!
     @IBOutlet weak var mainView: UIView!
     var userid: String = ""
-
+    var drawerOffset:CGFloat = -250
+    var deviceType = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -77,11 +79,19 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
         userid = UserDefaults.standard.string(forKey: "userid") ?? ""
         eName.text = "Hello, \(userid)"
         
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            drawerOffset = -350
+            deviceType = false
+        }
+       
+        
         getData()
     }
     
     @IBAction func closeSideView(_ sender: Any) {
-        stackLeading.constant = -250;
+        
+        stackLeading.constant = drawerOffset;
         
         //1
         hamburgerMenuIsVisible = false
@@ -89,6 +99,10 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
     }
     
     func getData() {
+        
+        originalArr.removeAll()
+        self.tableArray1.removeAll()
+        self.tableArray2.removeAll()
         //show loader
         SVProgressHUD.show()
         getAPIRequest(server_api: "userteams?userId=\(userid)", handler: {(data) in
@@ -103,6 +117,9 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
                     self.showMsg(title: "Error", subTitle: "Please try again")
                 }
             } else{
+                if ((data["message"] as? String) != nil) && ((data["message"] as? String) == "Invalid user") {
+                    self.showMsg(title: "Error", subTitle: "Please try again")
+                } else {
                 self.tableArray2 = data["teams"] as! [Dictionary<String, Any>]
                 
                 getAPIRequest(server_api: "teams", handler: {(data) in
@@ -130,6 +147,8 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
                         self.tableView.reloadData()
                     }
                 })
+                    
+                }
                 
                 
                
@@ -143,8 +162,8 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
             //viewLeading.constant = 150
             //this constant is NEGATIVE because we are moving it 150 points OUTWARD and that means -150
             //viewTrailing.constant = -150
-            stackLeading.constant = -250;
-            
+            //stackLeading.constant = -250;
+             stackLeading.constant = drawerOffset;
             //1
             hamburgerMenuIsVisible = false
             self.mainView.isUserInteractionEnabled = true
@@ -154,6 +173,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
             //viewLeading.constant = 0
             //viewTrailing.constant = 0
             stackLeading.constant = 0;
+            
             //2
             hamburgerMenuIsVisible = true
             self.mainView.isUserInteractionEnabled = false
@@ -180,7 +200,8 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
     
     
     override func viewDidDisappear(_ animated: Bool) {
-        stackLeading.constant = -250;
+         stackLeading.constant = drawerOffset;
+        
         hamburgerMenuIsVisible = false
         self.mainView.isUserInteractionEnabled = true
         super.viewDidDisappear(true)
@@ -210,7 +231,13 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60.0
+        if deviceType {
+            return 60.0
+        } else {
+            return 80.0
+        }
+        
+        
     }
 
     
@@ -247,7 +274,10 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
     
     
     @IBAction func unwindToHome(segue:UIStoryboardSegue) {
-        
+        segmentedCtrl.setEnabled(true, forSegmentAt: 0)
+        segmentedCtrl.selectedSegmentIndex = 0
+        print("jgjhggj")
+        getData()
     }
     
 }

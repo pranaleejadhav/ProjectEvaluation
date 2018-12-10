@@ -15,7 +15,7 @@ class ProjectdetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "Project Details"
         
         if let baseURL = Bundle.main.resourceURL {
             let fileURL = baseURL.appendingPathComponent("Project.html")

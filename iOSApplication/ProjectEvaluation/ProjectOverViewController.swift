@@ -12,7 +12,7 @@ class ProjectOverViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.title = "Project Overview"
         // Do any additional setup after loading the view.
     }
     

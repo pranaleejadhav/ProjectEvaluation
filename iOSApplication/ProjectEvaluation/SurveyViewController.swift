@@ -113,7 +113,7 @@ class SurveyViewController: UIViewController, UINavigationBarDelegate{
                     self.showMsg(title: "Error", subTitle: "Please try again")
                 }
             } else{
-                self.questionList = data["questions"] as! [Dictionary<String, Any>]
+                self.questionList = data["data"] as! [Dictionary<String, Any>]
                 print("no of questions \(self.questionList.count)")
                 
                 self.setQuestion()

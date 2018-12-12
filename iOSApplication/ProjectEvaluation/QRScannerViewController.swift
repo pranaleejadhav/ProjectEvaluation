@@ -22,6 +22,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     var teamid: String?
     
     var requests = false
+    var oldreq:Bool?
     
     
     private let supportedCodeTypes = [AVMetadataObject.ObjectType.upce,
@@ -43,6 +44,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+      
         //oginEvaluator()
         if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
             //already authorized
@@ -51,7 +53,9 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
                 if granted {
                     //access allowed
+                    DispatchQueue.main.async(execute: {
                     self.configureQRScanning()
+                    })
                 } else {
                     //access denied
                 }
@@ -124,15 +128,24 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             //dismiss loader
             SVProgressHUD.dismiss()
             if let val = data["code"] as? Int{
-                switch(val){
+               switch(val){
                 case 0: self.showMsg(title: "Oops!", subTitle: "No Internet")
                     break
                 default:
                     self.showMsg(title: "Error", subTitle: "Please try again")
                 }
             } else {
-                self.teamid = data["teamid"] as? String
-                self.performSegue(withIdentifier: "goToSurvey", sender: self)
+                if let temp = data["teamid"] as? String {
+                    self.teamid = temp
+                    self.performSegue(withIdentifier: "goToSurvey", sender: self)
+                } else {
+                    DispatchQueue.main.async(execute: {
+                        let alertController = UIAlertController(title: "Sorry", message:
+                            "Invalid token", preferredStyle: UIAlertController.Style.alert)
+                        alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertAction.Style.default,handler: { action in self.performSegue(withIdentifier: "goToHome", sender: self) }))
+                        self.present(alertController, animated: true, completion: nil)
+                    })
+                }
             }
         })
         
@@ -153,8 +166,27 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                 }
             } else {
                 print("loginnnn \(data)")
-                UserDefaults.standard.set(data["userid"], forKey: "userid")
-                self.performSegue(withIdentifier: "goToTeams", sender: self)
+                //self.performSegue(withIdentifier: "goToHome", sender: self)
+                if (data["userid"] as? String) != nil {
+                    if (data["type"] as? String) == "user" {
+                        UserDefaults.standard.set(data["userid"], forKey: "userid")
+                        self.performSegue(withIdentifier: "goToTeams", sender: self)
+                    } else {
+                        DispatchQueue.main.async(execute: {
+                            let alertController = UIAlertController(title: "Sorry", message:
+                                "Invalid token", preferredStyle: UIAlertController.Style.alert)
+                            alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertAction.Style.default,handler: { action in self.performSegue(withIdentifier: "goToLogin", sender: self) }))
+                            self.present(alertController, animated: true, completion: nil)
+                        })
+                    }
+                 } else {
+                    DispatchQueue.main.async(execute: {
+                        let alertController = UIAlertController(title: "Sorry", message:
+                            "Invalid token", preferredStyle: UIAlertController.Style.alert)
+                        alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertAction.Style.default,handler: { action in self.performSegue(withIdentifier: "goToLogin", sender: self) }))
+                        self.present(alertController, animated: true, completion: nil)
+                    })
+                }
             }
         })
         
@@ -205,7 +237,8 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             if metadataObj.stringValue != nil {
                 //launchApp(decodedURL: metadataObj.stringValue!)
                 resultLb.text = "QR code is detected"//metadataObj.stringValue
-                //print(metadataObj.stringValue)
+                print("tken  \(metadataObj.stringValue)")
+                
                 if !requests{
                     if escanType {
                         

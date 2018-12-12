@@ -123,6 +123,9 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource,UITableV
                 self.tableArray2 = data["teams"] as! [Dictionary<String, Any>]
                 
                 getAPIRequest(server_api: "teams", handler: {(data) in
+                    
+                    print("DATA \(data)")
+                    
                     //dismiss loader
                     SVProgressHUD.dismiss()
                     if let val = data["code"] as? Int{

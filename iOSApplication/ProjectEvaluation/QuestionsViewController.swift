@@ -54,7 +54,7 @@ class QuestionsViewController: UIViewController, UITableViewDataSource, UITableV
                     self.showMsg(title: "Error", subTitle: "Please try again")
                 }
             } else{
-                self.questionList = data["questions"] as! [Dictionary<String, Any>]
+                self.questionList = data["data"] as! [Dictionary<String, Any>]
                 self.tableView.reloadData()
             }
         })

@@ -42,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let bundle = Bundle.main
         let storyboard = UIStoryboard(name: "Main", bundle: bundle)
         self.window = UIWindow(frame: UIScreen.main.bounds)
+        //UserDefaults.standard.removeObject(forKey: "userid")
         if UserDefaults.standard.string(forKey: "userid") != nil {
         
             let mainViewController = storyboard.instantiateViewController(withIdentifier: "TeamSelectViewController") as! TeamSelectViewController

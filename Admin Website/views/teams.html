@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+</head>
+<body class="testtable">
+<nav class="navbar navbar-light bg-light">
+<ul class="nav justify-content-end">
+  <li class="nav-item liitem" style="font-size:20px">
+    <form action="/admin/home">
+   <button type="submit" class="btn btn-primary" name ="submit" value="home">Home</button>
+   </form>
+  </li>
+  <li class="nav-item liitem" style="font-size:20px">
+    <form action="/admin/addteam">
+   <button type="submit" class="btn btn-primary" name ="submit" value="home">Add Team</button>
+   </form>
+  </li>
+  <li class="nav-item liitem" style="font-size:20px">
+    <form action="/admin/logout">
+     <button type="submit" class="btn btn-primary" name ="submit" value="logout">Log Out</button>
+       </form>
+  </li>
+</ul>
+<h3 class="heading">Team Details</h3>
+<table class="table table-bordered patient">
+  <thead>
+    <tr>
+      <th scope="col" style=text-align:center>Id</th>
+      <th scope = "col" style=text-align:center>QRCode</th>
+    </tr>
+  </thead>
+</table>
+<script>
+
+
+$(document).ready(function() {
+    $('.patient').DataTable( {
+    	ajax: {
+            //"url":"http://ec2-18-221-45-243.us-east-2.compute.amazonaws.com:9000/userslist",
+            "url": "http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/teams",
+    		 headers:{'Authorization':tokenValue},	
+        },
+    	columns:[  {
+            "data" : "teamId"
+        },
+        {
+                        "render": function (data, type, JsonResultRow, meta) {
+                            return '<img src="'+JsonResultRow.qrcodeAddress+'">';
+                        }
+                    }
+        ],
+        // "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+        //     $('td:eq(4)', nRow).html(' <form action="/admin/showqrcode">' + '<button type="submit" class="btn btn-primary" name ="submit" value="getuserresponse">' +
+        //         'See Responses' + '</button>'  + '</form>');
+        //     return nRow;
+        // },	
+        dom: 'Bfrtip',
+        buttons: [
+            // 'print',
+            // 'excel',
+            // 'csv'
+            'copy', 'excel', 'pdf', 'csv','print'
+        //     {
+        //     extend: 'pdfHtml5',
+        //     //text: 'CSV',
+        //     exportOptions: {
+        //         stripHtml: false
+        //     }
+        // },
+        // {
+        //     extend: 'excelHtml5',
+        //     text: 'Excel',
+        //     exportOptions: {
+        //         stripHtml: false
+        //     }
+        // }
+            
+        ]
+    });
+    
+    // var table = $('.patient').DataTable();
+    // $('.patient tbody').on('click', 'tr', function () {
+    //     var data = table.row(this).data();
+    //     var request=new XMLHttpRequest();
+    //     var url = window.location.origin;
+    //     request.open("GET", url + "/admin/showqrcode?user="+data.userId , true);
+    //     request.send();
+    // });
+    
+});
+</script>
+</nav>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+</head>
+<body class="testtable">
+<nav class="navbar navbar-light bg-light">
+<ul class="nav justify-content-end">
+  <li class="nav-item liitem" style="font-size:20px">
+    <form action="/admin/home">
+   <button type="submit" class="btn btn-primary" name ="submit" value="home">Home</button>
+   </form>
+  </li>
+  <li class="nav-item liitem" style="font-size:20px">
+    <form action="/admin/addquestion" onsubmit="getConfirmation();">
+   <button type="submit" class="btn btn-primary" name ="submit" value="home">Add Question</button>
+   </form>
+  </li>
+  <li class="nav-item liitem" style="font-size:20px">
+    <form action="/admin/logout">
+     <button type="submit" class="btn btn-primary" name ="submit" value="logout">Log Out</button>
+       </form>
+  </li>
+</ul>
+<h3 class="heading" id="container">Survey Questions</h3>
+
+<table class="table table-bordered patient">
+  <thead>
+    <tr>
+      <!-- <th scope="col" style=text-align:center>QuestionId</th> -->
+      <th scope="col" style=text-align:center>Question</th>
+      <th scope="col" style=text-align:center>Delete Question</th>
+    </tr>
+  </thead>
+</table>
+<script>
+
+function getConfirmation(){
+              var retVal = confirm("Editing the survey deletes all the scores . Do you want to continue ?");
+               if( retVal == true ){
+                var request=new XMLHttpRequest();
+                var url = window.location.origin;
+                request.open("GET", url + "/admin/addquestion" , true);
+                request.send();
+                return true;
+               }
+               else{
+                var request=new XMLHttpRequest();
+                var url = window.location.origin;
+                request.open("GET", url + "/admin/editsurvey" , true);
+                request.send();
+                return false;
+               }
+            }
+$(document).ready(function() {
+    $('.patient').DataTable( {
+    	ajax: {
+            //"url":"http://ec2-18-221-45-243.us-east-2.compute.amazonaws.com:9000/userslist",
+            "url": "http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/questions",
+    		 headers:{'Authorization':tokenValue},	
+        },
+    	columns:[  
+        // {
+        //     "data" : "questionId"
+        // }
+        {
+            "data" : "question"
+        },
+        {
+            "data" : "_id"
+        }
+        // {
+        //                 "render": function (data, type, JsonResultRow, meta) {
+        //                     return '<img src="'+JsonResultRow.qrcodeAddress+'">';
+        //                 }
+        //             }
+        ],
+        "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+            $('td:eq(1)', nRow).html(' <form action="/admin/deletequestion">' + '<button type="submit" class="btn btn-primary" name ="submit" value="deletequestion">' +
+                'Delete Question' + '</button>'  + '</form>');
+            return nRow;
+        },	
+        dom: 'Bfrtip',
+        buttons: [
+            // 'print',
+            // 'excel',
+            // 'csv'
+            'copy', 'excel', 'pdf', 'csv','print'
+        ]
+    });
+    
+    var table = $('.patient').DataTable();
+    $('.patient tbody').on('click', 'tr', function () {
+               var retVal = confirm("Editing the survey deletes all the scores . Do you want to continue ?");
+               if( retVal == true ){
+                var data = table.row(this).data();
+                var request=new XMLHttpRequest();
+                var url = window.location.origin;
+                request.open("GET", url + "/admin/deletequestion?questionId="+data.question , true);
+                request.send();
+               }
+               else{
+                var request=new XMLHttpRequest();
+                var url = window.location.origin;
+                request.open("GET", url + "/admin/editsurvey" , true);
+                request.send();
+               }
+    });
+    
+});
+</script>
+</nav>
+</body>
+</html>

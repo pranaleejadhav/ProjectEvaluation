@@ -7,7 +7,7 @@ var check = require('./check');
 var qrcode = require('qrcode')
 var app = express();
 var token;
-var userName;
+var userNameValue;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -32,7 +32,7 @@ router.post('/dashboard',check.sessioncheck,function(req,res,next){
   // console.log("json is " + json.password)
 
   var options = {
-    //url: 'http://ec2-18-221-45-243.us-east-2.compute.amazonaws.com:9000/admin',
+      //url: 'http://localhost:4000/adminlogin',
     url: 'http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/adminlogin',
     method: 'POST',
     headers: {
@@ -126,8 +126,8 @@ router.post('/registerevaluator',check.logged,function(req,res){
   // console.log("json is " + json.password)
 
   var options = {
-    //url: 'http://ec2-18-221-45-243.us-east-2.compute.amazonaws.com:9000/admin',
-    url: 'http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/user',
+     //url: 'http://localhost:4000/user',
+     url: 'http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/user',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -155,8 +155,8 @@ router.post('/registerteam',function(req,res){
   };
 
   var options = {
-    //url: 'http://ec2-18-221-45-243.us-east-2.compute.amazonaws.com:9000/admin',
-    url: 'http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/team',
+     //url: 'http://localhost:4000/team',
+      url: 'http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/team',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -181,8 +181,8 @@ router.post('/registerquestion',check.logged,function(req,res,next)
   };
 
   var options = {
-    //url: 'http://ec2-18-221-45-243.us-east-2.compute.amazonaws.com:9000/admin',
-    url: 'http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/questions',
+     // url: 'http://localhost:4000/questions',
+      url: 'http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/questions',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -219,8 +219,8 @@ router.get('/deletequestion',check.logged,function(req,res,next)
   };
 
   var options = {
-    //url: 'http://ec2-18-221-45-243.us-east-2.compute.amazonaws.com:9000/admin',
-    url: 'http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/questions',
+    //url: 'http://localhost:4000/questions',
+     url: 'http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/questions',
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -240,6 +240,34 @@ router.get('/deletequestion',check.logged,function(req,res,next)
   else 
   {
     res.redirect('/admin/editsurvey');
+  }
+})
+
+router.get('/userevaluations',check.logged,function(req,res,next){
+  if (req.query.user != undefined)
+  {
+  console.log('inside user')
+  console.log('clicked ' + req.query.user)
+
+  var data = {
+    tokenValue: token,
+    username:req.query.user
+  };
+
+  userNameValue = req.query.user
+  
+  res.render('userevaluations',data);
+   
+  }
+  else 
+  {
+    console.log('agiam clicked ' + userNameValue)
+    var data = 
+    {
+    tokenValue: token,
+    username:userNameValue
+  };
+  res.render('userevaluations',data);
   }
 })
 

@@ -14,17 +14,22 @@
    </form>
   </li>
   <li class="nav-item liitem" style="font-size:20px">
+    <form action="/admin/addteam">
+   <button type="submit" class="btn btn-primary" name ="submit" value="home">Add Team</button>
+   </form>
+  </li>
+  <li class="nav-item liitem" style="font-size:20px">
     <form action="/admin/logout">
      <button type="submit" class="btn btn-primary" name ="submit" value="logout">Log Out</button>
        </form>
   </li>
 </ul>
-<h3 class="heading">ScoreBoard</h3>
+<h3 class="heading">User Evaluations</h3>
 <table class="table table-bordered patient">
   <thead>
     <tr>
-      <th scope="col" style=text-align:center>TeamId</th>
-      <th scope="col" style=text-align:center>Evaluations</th>
+      <th scope="col" style=text-align:center>User Id</th>
+      <th scope = "col" style=text-align:center>Team</th>
       <th scope = "col" style=text-align:center>Score</th>
     </tr>
   </thead>
@@ -33,28 +38,26 @@
 
 
 $(document).ready(function() {
+    
     $('.patient').DataTable( {
     	ajax: {
-            //"url":"http://localhost:4000/allscores",
-            "url": "http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/allscores",
+            //"url":"http://localhost:4000/userevaluations?userId="+username,
+            "url": "http://ec2-18-216-57-132.us-east-2.compute.amazonaws.com:4000/userId="+username,
     		 headers:{'Authorization':tokenValue},	
         },
     	columns:[  {
+            "data" : "userId"
+        },
+        {
             "data" : "teamId"
-        }, {
-            "data" : "evaluationscount"
-        }, {
+        },
+        {
             "data" : "score.$numberDecimal"
-        }, 
-        // {
-        //                 "render": function (data, type, JsonResultRow, meta) {
-        //                     return '<img src="'+JsonResultRow.qrcodeAddress+'">';
-        //                 }
-        //             }
+        }
         ],
         // "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
-        //     $('td:eq(4)', nRow).html(' <form action="/admin/showqrcode">' + '<button type="submit" class="btn btn-primary" name ="submit" value="getuserresponse">' +
-        //         'See Responses' + '</button>'  + '</form>');
+        //     $('td:eq(2)', nRow).html(' <form action="/admin/userscore">' + '<button type="submit" class="btn btn-primary" name ="submit" value="userscore">' +
+        //         'See Evaluations' + '</button>'  + '</form>');
         //     return nRow;
         // },	
         dom: 'Bfrtip',
@@ -63,6 +66,21 @@ $(document).ready(function() {
             // 'excel',
             // 'csv'
             'copy', 'excel', 'pdf', 'csv','print'
+        //     {
+        //     extend: 'pdfHtml5',
+        //     //text: 'CSV',
+        //     exportOptions: {
+        //         stripHtml: false
+        //     }
+        // },
+        // {
+        //     extend: 'excelHtml5',
+        //     text: 'Excel',
+        //     exportOptions: {
+        //         stripHtml: false
+        //     }
+        // }
+            
         ]
     });
     

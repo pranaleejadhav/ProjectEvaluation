@@ -38,7 +38,7 @@ class SurveyViewController: UIViewController, UINavigationBarDelegate{
     var qid:Int = 0
     var questionList:[Dictionary<String,Any>] = [Dictionary<String,Any>]()
     var selectedTag:Int = -1
-    var answers = [Int](repeating: -1, count: 10)
+    var answers:[Int]! // = [Int]()
     var seq:Int = 0
     var ans_arr = ["Poor","Fair","Good","Very Good","Superior"]
     var teamid: String = ""
@@ -68,6 +68,19 @@ class SurveyViewController: UIViewController, UINavigationBarDelegate{
             backBtn.tintColor = .white
             backBtn.setTitleColor(.white, for: UIControl.State.normal)
             navBarTitle.leftBarButtonItem = UIBarButtonItem(customView: backBtn)
+            
+            
+            var reviewBtn: UIButton!
+            reviewBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 25))
+           
+            reviewBtn.setTitle("Review", for: UIControl.State.normal)
+            reviewBtn.addTarget(self, action: #selector(showReview), for: .touchUpInside)
+            reviewBtn.contentHorizontalAlignment = .right
+            //reviewBtn.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10);
+            reviewBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0);
+            reviewBtn.tintColor = .white
+            reviewBtn.setTitleColor(.white, for: UIControl.State.normal)
+            navBarTitle.rightBarButtonItem = UIBarButtonItem(customView: reviewBtn)
 
         } else {
             //set navigation bar title
@@ -81,6 +94,7 @@ class SurveyViewController: UIViewController, UINavigationBarDelegate{
         
         getData()
         
+        print("Answers \(answers)")
         var tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         option1.addGestureRecognizer(tap)
         tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
@@ -115,7 +129,7 @@ class SurveyViewController: UIViewController, UINavigationBarDelegate{
             } else{
                 self.questionList = data["data"] as! [Dictionary<String, Any>]
                 print("no of questions \(self.questionList.count)")
-                
+                self.answers = [Int](repeating: -1, count: self.questionList.count)
                 self.setQuestion()
             }
         })
@@ -142,12 +156,19 @@ class SurveyViewController: UIViewController, UINavigationBarDelegate{
         if selectedTag <= -1{
             showMsg(title: "", subTitle: "Please answer the question")
         } else {
-            
+            print("qid === \(qid)")
             answers[qid] = selectedTag-1
             backBtn.isHidden = false
             if submitBtn.currentTitle == "Submit" {
+                var arraySum = 0
                 
-                let arraySum = answers.reduce(0) { $0 + $1 }
+                //answers.removeLast()
+               // answers.removeLast()
+                print(answers)
+                for i in answers{
+                    arraySum += 10*(i + 1)
+                }
+                //let arraySum = answers.reduce(0) { $0 + $1 }
                 //SVProgressHUD.show()
                 
                 /*post_submitsurvey(parameters: params, handler: {(data) in
@@ -245,6 +266,47 @@ class SurveyViewController: UIViewController, UINavigationBarDelegate{
         })
  
     }
+    
+    @IBAction func showReview() {
+        var str = ""
+        
+        var i = 0
+       self.questionList.forEach{ (item:Dictionary<String, Any>) in
+            var r = answers[i]
+        
+        if r > -1 {
+        var ans = ""
+            print("ahgjkbmnb \(r)")
+            switch(r) {
+            case 0: ans = "Poor"
+                break
+            case 1: ans = "Fair"
+                break
+            case 2: ans = "Good"
+                break
+            case 3: ans = "Very Good"
+                break
+            case 4: ans = "Superior"
+                break
+            default: break
+            }
+        i += 1
+         var q = item["question"] as? String
+            str += "\n \(i). \(q ?? "") ANS: \(ans) \n"
+            
+        }
+        }
+        if str == "" {
+            str = "No Questions Answered"
+        }
+        DispatchQueue.main.async(execute: {
+            let alertController = UIAlertController(title: "Review", message:
+                str, preferredStyle: UIAlertController.Style.alert)
+            alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertAction.Style.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        })
+    }
+    
     
     //show alertbox
     func closeSurvey(title: String, subTitle: String) -> Void {

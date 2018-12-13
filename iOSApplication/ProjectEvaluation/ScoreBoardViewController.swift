@@ -106,7 +106,13 @@ class ScoreBoardViewController: UIViewController, UITableViewDataSource, UITable
                             }
                             
                         }
-                        print(self.originalArr)
+                        
+                        self.originalArr.sort{
+                            (
+                                (Int(($0["score"] as! Dictionary<String,String>)["$numberDecimal"] ?? "0") ?? 0) > (Int(($1["score"] as! Dictionary<String,String>)["$numberDecimal"] ?? "0") ?? 0)
+                            )
+                            }
+                        //print(self.originalArr)
                         self.tableView.reloadData()
                     }
                 })
